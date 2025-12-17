@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="auth-card">
+    <h2>Login</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for c, m in messages %}
+        <div class="alert {{ c }}">{{ m }}</div>
+    {% endfor %}
+    {% endwith %}
+
+    <form method="post">
+        <input name="username" placeholder="Username" required>
+        <input name="password" type="password" placeholder="Password" required>
+
+        <button class="btn btn-apply">Login</button>
+    </form>
+
+    <p style="margin-top:15px;">
+        <a href="/signup" class="btn btn-edit">New User</a>
+    </p>
+
+    <p style="margin-top:10px;">
+        <a href="/reset" class="btn btn-reset">Forgot Password</a>
+    </p>
+</div>
+
+{% endblock %}

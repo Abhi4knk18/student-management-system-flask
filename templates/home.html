@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="landing-container">
+
+    <div class="landing-text">
+        <h1>
+            <span class="highlight">STUDENT</span><br>
+            MANAGEMENT SYSTEM
+        </h1>
+
+        <p>
+            Manage students efficiently with role-based access,
+            secure authentication, and a modern dashboard.
+        </p>
+
+        <div class="landing-actions">
+            <a href="/login" class="btn btn-apply">Login</a>
+            <a href="/signup" class="btn btn-add">Get Started</a>
+        </div>
+    </div>
+
+    <div class="landing-image">
+        <img src="{{ url_for('static', filename='images/student_illustration.png') }}"
+             alt="Student Management Illustration">
+    </div>
+
+</div>
+
+{% endblock %}
+
+
+<footer class="footer">
+  © 2025 Student Management System
+</footer>

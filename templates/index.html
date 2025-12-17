@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+
+    <!-- DASHBOARD HEADER -->
+    <h2 class="dashboard-title">Student Dashboard</h2>
+    <p class="dashboard-sub">
+        Welcome, <b>{{ session.get("user") }}</b>
+        ({{ session.get("role") }})
+    </p>
+
+    <!-- ===== ADMIN STATS ===== -->
+    {% if session.get("role") == "admin" %}
+    <div class="stats-grid">
+        <div class="stat-card blue">
+            <h3>{{ total_students }}</h3>
+            <p>Total Students</p>
+        </div>
+        <div class="stat-card green">
+            <h3>{{ total_branches }}</h3>
+            <p>Total Branches</p>
+        </div>
+        <div class="stat-card purple">
+            <h3>Admin</h3>
+            <p>Access Level</p>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for c, m in messages %}
+        <div class="alert {{ c }}">{{ m }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <!-- SEARCH & FILTER -->
+    <form method="get" class="toolbar">
+        <input name="search" placeholder="Search..."
+               value="{{ request.args.get('search','') }}">
+
+        <select name="branch">
+            <option value="ALL">All Branches</option>
+            {% for b in branches %}
+                <option value="{{ b }}"
+                  {% if request.args.get('branch') == b %}selected{% endif %}>
+                  {{ b }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button class="btn btn-apply">Apply</button>
+        <a href="/dashboard" class="btn btn-reset">Reset</a>
+    </form>
+
+    <!-- ADD / UPDATE (ADMIN ONLY) -->
+    {% if session.get("role") == "admin" %}
+    <form method="post" action="/dashboard" class="form">
+
+        <input name="name" placeholder="Name"
+               value="{{ edit_student[0] if edit_student else '' }}" required>
+
+        <input name="roll" placeholder="Roll No"
+               value="{{ edit_student[1] if edit_student else '' }}"
+               {% if edit_student %}readonly{% endif %} required>
+
+        <input name="branch" placeholder="Branch"
+               value="{{ edit_student[2] if edit_student else '' }}" required>
+
+        <!-- ✅ ATTENDANCE (ADMIN ONLY) -->
+        <input type="number" name="attendance"
+               placeholder="Attendance %"
+               min="0" max="100"
+               value="{{ edit_student[3] if edit_student else 0 }}"
+               required>
+
+        {% if edit_student %}
+            <input type="hidden" name="is_edit" value="1">
+            <button class="btn btn-apply">Update</button>
+            <a href="/dashboard" class="btn btn-reset">Cancel</a>
+        {% else %}
+            <button class="btn btn-add">Add Student</button>
+        {% endif %}
+    </form>
+    {% endif %}
+
+    <!-- STUDENT TABLE -->
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Roll</th>
+            <th>Branch</th>
+            <th>Attendance (%)</th>
+            <th>Action</th>
+        </tr>
+
+        {% for s in students %}
+        <tr>
+            <td>{{ s[0] }}</td>
+            <td>{{ s[1] }}</td>
+            <td>{{ s[2] }}</td>
+            <td>{{ s[3] }}%</td>
+            <td>
+                <a href="/student/{{ s[1] }}" class="btn btn-view">View</a>
+
+                {% if session.get("role") == "admin" %}
+                    <a href="/edit/{{ s[1] }}" class="btn btn-edit">Edit</a>
+                    <a href="/delete/{{ s[1] }}" class="btn btn-delete"
+                       onclick="return confirm('Delete this student?')">
+                       Delete
+                    </a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+{% endblock %}
