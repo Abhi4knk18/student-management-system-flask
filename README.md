@@ -24,6 +24,4 @@ pip install flask
 python app.py
 
 
-6. **Save the file (Ctrl + S)**
-
 ---
