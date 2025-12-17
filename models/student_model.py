@@ -66,6 +66,13 @@ def update_student(name, roll, branch, attendance=None):
 def delete_student(roll):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute("DELETE FROM students WHERE roll=?", (roll,))
+
+    clean_roll = roll.strip()  # ✅ THIS IS THE FIX
+
+    cur.execute(
+        "DELETE FROM students WHERE TRIM(roll)=?",
+        (clean_roll,)
+    )
+
     conn.commit()
     conn.close()

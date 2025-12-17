@@ -3,9 +3,6 @@ from models import user_model as users
 
 auth_bp = Blueprint("auth", __name__)
 
-
-
-
 # ---------- LOGIN ----------
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
@@ -18,8 +15,6 @@ def login():
             session["user"] = username
             session["role"] = role
             flash("Login successful", "success")
-
-            # Redirect to DASHBOARD (not home)
             return redirect(url_for("student.index"))
 
         flash("Invalid credentials", "error")
@@ -32,8 +27,6 @@ def login():
 def logout():
     session.clear()
     flash("Logged out", "success")
-
-    # After logout, go to LOGIN (not dashboard)
     return redirect(url_for("auth.login"))
 
 
@@ -47,19 +40,16 @@ def signup():
         from models.user_model import create_user
         create_user(username, password, "user")
 
-        # AUTO LOGIN AFTER SIGNUP
         session["user"] = username
         session["role"] = "user"
 
         flash("Account created & logged in", "success")
-
-        # Redirect to DASHBOARD
         return redirect(url_for("student.index"))
 
     return render_template("signup.html")
 
 
-
+# ---------- PROFILE ----------
 @auth_bp.route("/profile", methods=["GET", "POST"])
 def profile():
     if "user" not in session:
@@ -75,3 +65,9 @@ def profile():
             flash("Old password incorrect", "error")
 
     return render_template("profile.html")
+
+
+# ---------- FORGOT PASSWORD (SAFE PLACEHOLDER) ----------
+@auth_bp.route("/forgot-password")
+def forgot_password():
+    return render_template("forgot_password.html")
