@@ -3,7 +3,7 @@
 A role-based web application built using Flask.
 
 ## Features
-🔐 Authentication & Authorization
+1.🔐 Authentication & Authorization
 
 User login & signup
 
@@ -15,7 +15,7 @@ Secure session handling using Flask sessions
 
 Profile view & password update functionality
 
-👨‍💼 Admin Capabilities
+2.👨‍💼 Admin Capabilities
 
 Add new students
 
@@ -29,7 +29,7 @@ Dashboard with statistics
 
 Full control over student records
 
-👨‍🎓 Student Capabilities
+3.👨‍🎓 Student Capabilities
 
 View student list (read-only)
 
@@ -37,7 +37,7 @@ View individual student details
 
 Restricted access (no create / edit / delete permissions)
 
-📊 Dashboard
+4.📊 Dashboard
 
 Total students count
 
@@ -49,7 +49,7 @@ Filter students by branch
 
 Clean and role-aware dashboard interface
 
-🎨 UI / UX
+5.🎨 UI / UX
 
 Modern landing page
 
@@ -62,8 +62,11 @@ Flash messages with auto-dismiss
 Role-aware navigation menu
 
 ## Tech Stack
-Layer	Technology
-Backend	Flask (Python)
-Database	SQLite
-Frontend	HTML, CSS, Jinja2
-Authentication
+| Layer           | Technology        |
+| --------------- | ----------------- |
+| Backend         | Flask (Python)    |
+| Database        | SQLite            |
+| Frontend        | HTML, CSS, Jinja2 |
+| Authentication  | Flask Sessions    |
+| Version Control | Git & GitHub      |
+
