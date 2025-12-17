@@ -6,5 +6,9 @@
     "aa": {
         "password": "1112",
         "role": "user"
+    },
+    "ABHISHANT": {
+        "password": "22",
+        "role": "user"
     }
 }

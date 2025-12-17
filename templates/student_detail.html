@@ -2,34 +2,31 @@
 {% block content %}
 
 <div class="detail-page">
+  <div class="detail-card">
+    <h2 class="detail-title">Student Details</h2>
 
-    <div class="detail-card">
-        <h2 class="detail-title">Student Details</h2>
-
-        <div class="detail-row">
-            <span class="label">Name</span>
-            <span class="value">{{ student[0] }}</span>
-        </div>
-
-        <div class="detail-row">
-            <span class="label">Roll No</span>
-            <span class="value">{{ student[1] }}</span>
-        </div>
-
-        <div class="detail-row">
-            <span class="label">Branch</span>
-            <span class="value">{{ student[2] }}</span>
-        </div>
-
-        <!-- ✅ NEW: Attendance (VIEW ONLY) -->
-        <div class="detail-row">
-            <span class="label">Attendance</span>
-            <span class="value">{{ student[3] }}%</span>
-        </div>
-
-        <a href="/dashboard" class="btn btn-back">← Back</a>
+    <div class="detail-row">
+      <span class="label">Name</span>
+      <span class="value">{{ student[0] }}</span>
     </div>
 
+    <div class="detail-row">
+      <span class="label">Roll No</span>
+      <span class="value">{{ student[1] }}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Branch</span>
+      <span class="value">{{ student[2] }}</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="label">Attendance</span>
+      <span class="value">{{ student[3] }}%</span>
+    </div>
+
+    <a href="/dashboard" class="btn btn-back">← Back</a>
+  </div>
 </div>
 
 {% endblock %}

@@ -12,7 +12,7 @@ def home():
 # ---------- DASHBOARD (ADMIN + USER) ----------
 @student_bp.route("/dashboard", methods=["GET", "POST"])
 def index():
-    # 🔐 Auth check
+    # 🔐 Authentication check
     if "user" not in session:
         return redirect(url_for("auth.login"))
 
@@ -22,15 +22,19 @@ def index():
             flash("Access denied", "error")
             return redirect(url_for("student.index"))
 
-        name = request.form["name"]
-        roll = request.form["roll"]
-        branch = request.form["branch"]
+        name = request.form["name"].strip()
+        roll = request.form["roll"].strip()
+        branch = request.form["branch"].strip()
 
-        # ✅ NEW (SAFE): attendance with fallback
-        attendance = int(request.form.get("attendance", 0))
+        # ✅ Attendance: safe parse + clamp (0–100)
+        try:
+            attendance = int(request.form.get("attendance", 0))
+        except ValueError:
+            attendance = 0
+
+        attendance = max(0, min(attendance, 100))
 
         if request.form.get("is_edit") == "1":
-            # 🔁 extended but not breaking
             db.update_student(name, roll, branch, attendance)
             flash("Student updated successfully", "success")
         else:
@@ -45,7 +49,7 @@ def index():
     search = request.args.get("search", "").lower()
     branch_filter = request.args.get("branch", "ALL")
 
-    students = db.fetch_students()  # now includes attendance
+    students = db.fetch_students()  # (name, roll, branch, attendance)
 
     if search:
         students = [
@@ -60,7 +64,7 @@ def index():
 
     branches = sorted({s[2] for s in db.fetch_students()})
 
-    # 📊 DASHBOARD STATS
+    # 📊 Dashboard stats
     total_students = len(students)
     total_branches = len(set(s[2] for s in students))
 
@@ -100,6 +104,11 @@ def edit(roll):
 
     students = db.fetch_students()
     edit_student = db.get_student(roll)
+
+    if not edit_student:
+        flash("Student not found", "error")
+        return redirect(url_for("student.index"))
+
     branches = sorted({s[2] for s in students})
 
     total_students = len(students)

@@ -42,13 +42,23 @@ def add_student(name, roll, branch):
         conn.close()
 
 # ---------- UPDATE ----------
-def update_student(name, roll, branch, attendance):
+def update_student(name, roll, branch, attendance=None):
     conn = get_connection()
     cur = conn.cursor()
-    cur.execute(
-        "UPDATE students SET name=?, branch=?, attendance=? WHERE roll=?",
-        (name, branch, attendance, roll)
-    )
+
+    if attendance is None:
+        # old behavior (NO BREAKING CHANGE)
+        cur.execute(
+            "UPDATE students SET name=?, branch=? WHERE roll=?",
+            (name, branch, roll)
+        )
+    else:
+        # admin updating attendance
+        cur.execute(
+            "UPDATE students SET name=?, branch=?, attendance=? WHERE roll=?",
+            (name, branch, attendance, roll)
+        )
+
     conn.commit()
     conn.close()
 
